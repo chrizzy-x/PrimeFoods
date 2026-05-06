@@ -144,7 +144,7 @@ Deno.serve(async (req: Request) => {
   const updatePayload: Record<string, unknown> = { status: targetStatus };
 
   if (targetStatus === 'confirmed') updatePayload['confirmed_at'] = new Date().toISOString();
-  if (targetStatus === 'preparing') updatePayload['prepared_at'] = null; // will be set when ready
+  if (targetStatus === 'ready_for_pickup') updatePayload['prepared_at'] = new Date().toISOString();
   if (targetStatus === 'delivered') updatePayload['delivered_at'] = new Date().toISOString();
   if (targetStatus === 'cancelled') {
     updatePayload['cancelled_at'] = new Date().toISOString();
