@@ -1,8 +1,8 @@
 {
-  "name": "prime-kitchen-web",
+  "name": "prime-foods-web",
   "version": "0.0.1",
   "private": true,
-  "description": "Prime Kitchen — restaurant dashboard web app",
+  "description": "Prime Foods — customer food ordering PWA",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -17,7 +17,6 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
-    "recharts": "^2.13.0",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
