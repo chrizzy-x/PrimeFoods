@@ -180,7 +180,7 @@ export function usePlaceOrder() {
         quantity: i.quantity,
         unit_price: i.price,
         subtotal: i.price * i.quantity,
-        notes: i.notes ?? null,
+        ...(i.notes ? { notes: i.notes } : {}),
       }));
 
       const { error: itemsErr } = await supabase.from('order_items').insert(orderItems);
