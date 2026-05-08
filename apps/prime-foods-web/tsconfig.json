@@ -21,6 +21,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"],
-  "references": [{ "path": "../../packages/types" }]
+  "include": ["src"]
 }
