@@ -231,7 +231,7 @@ export function useAnalytics(startDate: Date, endDate: Date) {
         .lte('created_at', endDate.toISOString())
         .neq('status', 'cancelled');
       if (error) throw error;
-      return (data ?? []) as AnalyticsOrder[];
+      return (data ?? []) as unknown as AnalyticsOrder[];
     },
   });
 }
