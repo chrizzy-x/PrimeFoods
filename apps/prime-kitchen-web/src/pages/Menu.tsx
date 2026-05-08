@@ -66,10 +66,10 @@ function MenuItemModal({
         name: form.name,
         description: form.description,
         price: parseFloat(form.price),
-        image_url: form.image_url || undefined,
+        ...(form.image_url ? { image_url: form.image_url } : {}),
         category_id: form.category_id,
         prep_time_minutes: parseInt(form.prep_time_minutes, 10),
-        calories: form.calories ? parseInt(form.calories, 10) : undefined,
+        ...(form.calories ? { calories: parseInt(form.calories, 10) } : {}),
         is_featured: form.is_featured,
         is_available: form.is_available,
       };
