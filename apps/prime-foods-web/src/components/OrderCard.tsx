@@ -23,7 +23,7 @@ interface Props {
 }
 
 export function OrderCard({ order }: Props) {
-  const config = STATUS_CONFIG[order.status];
+  const config = STATUS_CONFIG[order.status]!;
   const itemSummary = order.items
     .slice(0, 2)
     .map((i) => `${i.quantity}× ${i.menu_item?.name ?? 'Item'}`)

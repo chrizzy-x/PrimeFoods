@@ -17,10 +17,11 @@
     "noEmit": true,
     "outDir": "./dist",
     "baseUrl": ".",
+    "types": ["vite/client"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@primefoods/types": ["../../packages/types/src/index.ts"]
     }
   },
-  "include": ["src"],
-  "references": [{ "path": "../../packages/types" }]
+  "include": ["src"]
 }
