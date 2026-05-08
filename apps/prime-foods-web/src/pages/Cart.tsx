@@ -23,10 +23,10 @@ export function Cart() {
           name: i.menuItem.name,
           price: i.menuItem.price,
           quantity: i.quantity,
-          notes: i.notes || undefined,
+          ...(i.notes ? { notes: i.notes } : {}),
         })),
         total: subtotal + DELIVERY_FEE,
-        notes: notes || undefined,
+        ...(notes ? { notes } : {}),
       });
       clearCart();
       navigate('/orders');
