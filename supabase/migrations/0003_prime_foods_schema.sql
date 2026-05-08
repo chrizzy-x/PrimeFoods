@@ -28,6 +28,7 @@ DROP TYPE IF EXISTS public.user_role CASCADE;
 DROP FUNCTION IF EXISTS public.update_restaurant_rating() CASCADE;
 DROP FUNCTION IF EXISTS public.handle_new_user() CASCADE;
 DROP FUNCTION IF EXISTS public.handle_updated_at() CASCADE;
+DROP FUNCTION IF EXISTS public.current_user_role() CASCADE;
 
 -- ─── New enum ─────────────────────────────────────────────────────────────────
 
@@ -174,13 +175,21 @@ CREATE POLICY "profiles: own row update"
   USING (id = auth.uid())
   WITH CHECK (id = auth.uid());
 
--- categories: public read, admin write
+-- categories: public read, admin write (split per operation)
 CREATE POLICY "categories: public read"
   ON public.categories FOR SELECT
   USING (true);
 
-CREATE POLICY "categories: admin write"
-  ON public.categories FOR ALL
+CREATE POLICY "categories: admin insert"
+  ON public.categories FOR INSERT
+  WITH CHECK (public.current_user_role() = 'admin');
+
+CREATE POLICY "categories: admin update"
+  ON public.categories FOR UPDATE
+  USING (public.current_user_role() = 'admin');
+
+CREATE POLICY "categories: admin delete"
+  ON public.categories FOR DELETE
   USING (public.current_user_role() = 'admin');
 
 -- menu_items: public read, admin write, staff can toggle is_available
@@ -188,9 +197,9 @@ CREATE POLICY "menu_items: public read"
   ON public.menu_items FOR SELECT
   USING (true);
 
-CREATE POLICY "menu_items: admin write"
+CREATE POLICY "menu_items: admin insert"
   ON public.menu_items FOR INSERT
-  USING (public.current_user_role() = 'admin');
+  WITH CHECK (public.current_user_role() = 'admin');
 
 CREATE POLICY "menu_items: staff+admin update"
   ON public.menu_items FOR UPDATE

@@ -1,3 +1,9 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "build": {
+    "env": {
+      "VITE_SUPABASE_URL": "https://fazeexkkunjbgdwlseth.supabase.co",
+      "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhemVleGtrdW5qYmdkd2xzZXRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MDk4ODEsImV4cCI6MjA4ODk4NTg4MX0.gqRCYYWHCUKdUL5k0lP3lLL_vjQoRHgH7FyF4-JW48A"
+    }
+  }
 }
