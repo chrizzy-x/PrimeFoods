@@ -99,6 +99,25 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=<anon key from supabase start output>
 
 ## 4. Running the apps
 
+### Prime Foods customer website
+
+Configure `apps/prime-foods-web/.env` from its `.env.example` with
+`VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`, then run:
+
+```bash
+cd apps/prime-foods-web
+pnpm dev
+```
+
+Opens at http://localhost:5173 without requiring sign-in. Checkout and profile
+saves reuse an existing session or create an anonymous guest session automatically.
+For a hosted Supabase project, enable **Anonymous Sign-Ins** in Authentication
+settings. Changing the local `enable_anonymous_sign_ins` configuration does not
+change the hosted project's setting. If anonymous sign-ins are disabled, visitors
+can still browse and build a cart, but checkout and saving guest details fail with
+a visible message. Order access persists only while the guest's browser storage
+is retained.
+
 ### Prime Kitchen web dashboard
 
 ```bash

@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import type { Category, MenuItem, Order, OrderItem, Profile } from '@primefoods/types';
 import { supabase } from './supabase';
+import { getOrCreateGuestUser } from './guestSession';
 
 // ─── Categories ───────────────────────────────────────────────────────────────
 
@@ -96,15 +97,17 @@ export function useUpdateProfile() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (updates: { full_name: string; phone: string; avatar_url?: string }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const user = await getOrCreateGuestUser();
       const { error } = await supabase
         .from('profiles')
         .update(updates)
         .eq('id', user.id);
       if (error) throw error;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['profile'] }),
+    onSuccess: () => Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['profile'] }),
+      queryClient.invalidateQueries({ queryKey: ['orders'] }),
+    ]),
   });
 }
 
@@ -159,8 +162,7 @@ export function usePlaceOrder() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (payload: PlaceOrderPayload): Promise<string> => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const user = await getOrCreateGuestUser();
 
       const { data: order, error: orderErr } = await supabase
         .from('orders')
@@ -188,6 +190,9 @@ export function usePlaceOrder() {
 
       return order.id;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['orders'] }),
+    onSuccess: () => Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['orders'] }),
+      queryClient.invalidateQueries({ queryKey: ['profile'] }),
+    ]),
   });
 }

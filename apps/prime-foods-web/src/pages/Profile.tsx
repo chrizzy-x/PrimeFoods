@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useProfile, useUpdateProfile } from '../lib/queries';
-import { supabase } from '../lib/supabase';
 
 function Avatar({ name }: { name: string }) {
   const initials = name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
@@ -13,7 +11,6 @@ function Avatar({ name }: { name: string }) {
 }
 
 export function Profile() {
-  const navigate = useNavigate();
   const { data: profile, isLoading } = useProfile();
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile();
   const [editing, setEditing] = useState(false);
@@ -40,11 +37,6 @@ export function Profile() {
     }
   };
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate('/auth', { replace: true });
-  };
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-full">
@@ -60,7 +52,7 @@ export function Profile() {
       <div className="flex flex-col items-center mb-6">
         <Avatar name={profile?.full_name ?? ''} />
         <h2 className="font-display font-semibold text-xl text-text-primary mt-3">
-          {profile?.full_name || 'Anonymous'}
+          {profile?.full_name || 'Guest'}
         </h2>
         <span className="mt-1 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-accent/15 text-accent border border-accent/30">
           {profile?.role ?? 'customer'}
@@ -129,12 +121,6 @@ export function Profile() {
         )}
       </div>
 
-      <button
-        onClick={handleSignOut}
-        className="w-full py-3.5 rounded-2xl border border-red-500/30 text-red-400 text-sm font-semibold hover:bg-red-500/10 transition-colors"
-      >
-        Sign Out
-      </button>
     </div>
   );
 }
