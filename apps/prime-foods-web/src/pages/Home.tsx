@@ -50,7 +50,7 @@ export function Home() {
           <div>
             <p className="text-text-secondary text-sm">{getGreeting()},</p>
             <h1 className="font-display font-bold text-xl text-text-primary">
-              {profile?.full_name?.split(' ')[0] ?? 'Foodie'} 👋
+              {profile?.full_name?.split(' ')[0] || 'Foodie'} 👋
             </h1>
           </div>
           <Avatar name={profile?.full_name ?? ''} />

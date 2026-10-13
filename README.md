@@ -80,6 +80,20 @@ cd apps/prime-foods-mobile && pnpm start
 | Language | TypeScript (strict mode) |
 | Package manager | pnpm workspaces |
 
+## Customer access
+
+The Prime Foods customer website (`apps/prime-foods-web`) opens directly to the
+menu without signup, sign-in, or sign-out screens. Previous `/auth` links redirect
+to the home page. Existing sessions continue to work.
+
+Checkout and profile saves create a private, anonymous Supabase session when
+needed. Enable **Anonymous Sign-Ins** in the hosted Supabase project's
+Authentication settings before using those features. Local Supabase already
+enables this in `supabase/config.toml`. Each guest's order history stays associated
+with the browser session; clearing browser storage loses access to that history.
+
+Prime Kitchen staff authentication is separate from customer access.
+
 ## Contributing
 
 1. Follow the code style enforced by ESLint and Prettier (`pnpm format`).

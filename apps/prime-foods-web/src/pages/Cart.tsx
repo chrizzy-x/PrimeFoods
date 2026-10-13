@@ -13,9 +13,11 @@ export function Cart() {
   const clearCart = useCartStore((s) => s.clearCart);
   const subtotal = useCartStore((s) => s.items.reduce((sum, i) => sum + i.menuItem.price * i.quantity, 0));
   const [notes, setNotes] = useState('');
+  const [error, setError] = useState('');
   const { mutateAsync: placeOrder, isPending } = usePlaceOrder();
 
   const handlePlaceOrder = async () => {
+    setError('');
     try {
       await placeOrder({
         items: items.map((i) => ({
@@ -30,8 +32,8 @@ export function Cart() {
       });
       clearCart();
       navigate('/orders');
-    } catch (err) {
-      console.error('Order failed:', err);
+    } catch {
+      setError('We couldn’t place your order. Your cart is saved; please try again.');
     }
   };
 
@@ -124,6 +126,7 @@ export function Cart() {
       </div>
 
       <div className="px-4 mt-5 pb-6">
+        {error && <p role="alert" className="text-red-400 text-sm mb-3">{error}</p>}
         <button
           onClick={handlePlaceOrder}
           disabled={isPending}
